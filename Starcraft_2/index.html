@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Моя раса в Starcraft 2</title>
+</head>
+<body>
+
+  <div class="main">
+
+    <div class="app" v-show="showMain">
+      <div class="app_header">
+        <img src="img/logo.png" class="app_logo">
+      </div>
+
+        <button class="app_btn" @click="goToQuestions">
+          <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+          <div class="app_btn-text">Начать</div>
+        </button>
+
+        <button class="app_btn" @click="goToAchivments">
+          <i class="fa fa-trophy" aria-hidden="true"></i>
+          <div class="app_btn-text">Достижения</div>
+        </button>
+
+        <button class="app_btn" @click="goToSocial">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <div class="app_btn-text">Автор</div>
+        </button>
+
+        <button class="app_btn btn_sound">
+          <i class="fa fa-volume-off" aria-hidden="true"></i>
+          <div class="app_btn-text">Звук</div>
+        </button>
+    </div>
+
+
+    <div class="app achivments" v-show="showAchivments">
+      <div class="app_body">
+        <div class="app_body-inner">
+          <h2 class="app_body-title">
+            <i class="fa fa-trophy" aria-hidden="true"></i>
+            Достижения
+          </h2>
+          <div class="app_body-top">
+            <div class="app_card">
+              <div class="app_card-text">Счёт</div>
+              <div class="app_card-count">{{totalScore}}</div>
+            </div>
+            <div class="app_card">
+              <div class="app_card-text">Открыто рас</div>
+              <div class="app_card-count">{{openRaces}}</div>
+            </div>
+            <div class="app_card">
+              <div class="app_card-text">Всего игр</div>
+              <div class="app_card-count">{{totalGames}}</div>
+            </div>
+            <div class="app_card">
+              <div class="app_card-text">Любимая раса</div>
+              <div class="app_card-count">{{favoriteRace}}</div>
+            </div>
+          </div>
+
+          <div class="app_body-middle">
+            <div class="app_result"
+            v-for="(race, k) in results"
+            v-show="showResultRace[k]"
+            @click="goToResult(k)">
+              <div class="app_result-score">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <div class="app_result-count">{{race.points}}</div>
+              </div>
+              <div class="app_result-name">{{race.name}}</div>
+              <div class="app_result-amount">{{totalGame[k]}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app_body-bottom">
+          <button class="app_btn btn_back btn__achivment" @click="goToMain">
+            <i class="fa fa-reply" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="app" v-show="showQuestions">
+      <div class="app_header">
+        <div class="app_header-inner">
+          <div class="app_count"># {{number+1}}</div>
+          <div class="app_text">{{questions[number][0]}}</div>
+        </div>
+      </div>
+
+      <button class="app_btn"
+      v-for="(answer, i) in questions[number][1]"
+      v-on:click="nextQuestions(questions[number][2][i])"><div class="app_btn-text">{{answer}}</div>
+      </button>
+    </div>
+
+    <div class="app" v-show="showSocial">
+      <div class="app_body">
+        <a target="_blank" href="https://github.com/LEGO23?tab=repositories" class="app_btn">
+          <i class="fa fa-github" aria-hidden="true"></i>
+          <div class="app_btn-text">GitGub</div>
+        </a>
+      </div>
+      <button class="app_btn btn_back" @click="goToMain">
+        <i class="fa fa-reply" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="app results" v-show="showResult" :data-race="resultRace">
+      <div class="app_body">
+        <div class="app_results-inner">
+          <div class="results_title">{{results[resultRace].name}}</div>
+          <div class="results_img"></div>
+          <img :src="'img/'+ resultRace +'_logo.png'">
+        </div>
+        <div class="results_text-box">
+          <p class="results_text">{{results[resultRace].description}}</p>
+          <p class="results_quote">{{results[resultRace].quote1}}</p>
+          <p class="results_quote">{{results[resultRace].quote2}}</p>
+          <p class="results_author">{{results[resultRace].author}}</p>
+        </div>
+        <div>
+          <button :class="'app_btn btn_back btn_'+ resultRace" @click="goToAchivments">
+            <i class="fa fa-reply" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/vue.js"></script>
+  <script src="js/const.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
